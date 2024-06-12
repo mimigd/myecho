@@ -1,0 +1,9 @@
+package def
+
+const (
+	RETURN_CODE_SUCCESS               = 200
+	RETURN_CODE_UNAUTHORIZED          = 401
+	RETURN_CODE_FORBIDDEN             = 403
+	RETURN_CODE_NOT_FOUND             = 404
+	RETURN_CODE_INTERNAL_SERVER_ERROR = 500
+)

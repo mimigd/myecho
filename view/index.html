@@ -7,16 +7,10 @@
 <body>
 
     <h1>Index</h1>
-    <a href="index.php">Index</a>
-    <a href="index.php?page=about">About</a>
-    <a href="index.php?page=contact">Contact</a>
+    <p>Index page</p>
 
-    <?php
-        if (isset($_GET['page'])) {
-            $page = $_GET['page'];
-            include 'view/' . $page . '.html';
-        }
-    ?>
+    <a href="about">About</a>
+    <a href="contact">Contact</a>
 
 </body>
 </html>

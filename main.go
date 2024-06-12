@@ -2,14 +2,21 @@ package main
 
 import (
 	"fmt"
+	"time"
+
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	"myecho/controllers"
-	"time"
+	"myecho/pkg/db"
+
+	_ "github.com/joho/godotenv/autoload"
 )
 
 func main() {
 	//startTime := time.Now().UnixNano()
+
+	db.InitDB()
+	defer db.CloseDB()
 
 	e := echo.New()
 
