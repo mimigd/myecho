@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+    <h1>Index</h1>
+    <a href="index.php">Index</a>
+    <a href="index.php?page=about">About</a>
+    <a href="index.php?page=contact">Contact</a>
+
+    <?php
+        if (isset($_GET['page'])) {
+            $page = $_GET['page'];
+            include 'view/' . $page . '.html';
+        }
+    ?>
+
+</body>
+</html>
