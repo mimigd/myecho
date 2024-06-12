@@ -4,17 +4,16 @@ import (
 	"net/http"
 
 	"github.com/labstack/echo/v4"
-	"gorm.io/gorm"
 	"myecho/models"
 )
 
-type UserController struct {
-	DB *gorm.DB
-}
+var testValue = 0
 
-func GetUser(c echo.Context) error {
+func TestAPI(c echo.Context) error {
 
 	param := c.QueryParam("name")
+
+	testValue++
 
 	response := map[string]interface{}{
 		"message": "success",
@@ -26,14 +25,14 @@ func GetUser(c echo.Context) error {
 			"list2": []int{1, 2, 3},
 		},
 		"param": param,
+		"test":  testValue,
 	}
 	return c.JSON(200, response)
 }
 
 // GetUsers retrieves all users
-func (uc *UserController) GetUsers(c echo.Context) error {
-	var users []models.User
-	err, _ := models.GetAllUsers(uc.DB)
+func GetAllUsers(c echo.Context) error {
+	users, err := models.GetAllUsers()
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, err)
 	}

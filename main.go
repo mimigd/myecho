@@ -2,23 +2,34 @@ package main
 
 import (
 	"fmt"
+	"myecho/models"
+	"myecho/routes"
 	"time"
 
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
-	"myecho/controllers"
 	"myecho/pkg/db"
 
 	_ "github.com/joho/godotenv/autoload"
 )
 
 func main() {
-	//startTime := time.Now().UnixNano()
 
+	// 初始化資料庫
 	db.InitDB()
 	defer db.CloseDB()
 
+	// 自動建立資料表
+	err := db.DB.AutoMigrate(&models.User{})
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	// Echo instance
 	e := echo.New()
+
+	// 初始化路由
+	routes.Init(e)
 
 	// Middleware
 	e.Use(middleware.Logger())
@@ -35,11 +46,5 @@ func main() {
 		}
 	})
 
-	e.GET("/users", controllers.GetUser)
 	e.Logger.Fatal(e.Start(":8081"))
-
-	// 計算消耗時間
-	//endTime := time.Now().UnixNano()
-	//duration := float64(endTime-startTime) / 1000000000
-	//fmt.Printf("消耗時間(秒): %.6f\n", duration)
 }

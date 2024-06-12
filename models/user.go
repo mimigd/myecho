@@ -1,20 +1,20 @@
 package models
 
-import "gorm.io/gorm"
+import (
+	"myecho/pkg/db"
+)
 
 type User struct {
-	ID       int    `gorm:"primary_key" json:"id"`
-	Name     string `gorm:"size:100" json:"name"`
-	Password string `gorm:"size:100" json:"password"`
-	Email    string `gorm:"size:100" json:"email"`
+	ID       int     `gorm:"primary_key" json:"id"`
+	Name     string  `gorm:"size:100;not null;comment:使用者名稱" json:"name"`
+	Password string  `gorm:"size:100;not null;comment:密碼" json:"password"`
+	Email    *string `gorm:"size:100;comment:信箱" json:"email"`
+	Gender   *string `gorm:"size:10;comment:性別" json:"gender"`
 }
 
 // GetAllUsers retrieves all users
-func GetAllUsers(db *gorm.DB) ([]*User, error) {
-	var users []*User
-	result := db.Find(&users)
-	if result.Error != nil {
-		return nil, result.Error
-	}
-	return users, nil
+func GetAllUsers() ([]User, error) {
+	var users []User
+	result := db.DB.Find(&users)
+	return users, result.Error
 }

@@ -1,18 +1,22 @@
 package db
 
 import (
-	"log"
-	"os"
-
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
+	"gorm.io/gorm/schema"
+	"log"
+	"os"
 )
 
 var DB *gorm.DB
 
 func InitDB() {
 	var err error
-	DB, err = gorm.Open(mysql.Open(os.Getenv("MYECHO_MYSQL")))
+	DB, err = gorm.Open(mysql.Open(os.Getenv("MYECHO_MYSQL")), &gorm.Config{
+		NamingStrategy: schema.NamingStrategy{
+			SingularTable: true,
+		},
+	})
 	if err != nil {
 		log.Fatalf("Failed to connect to database: %v", err)
 	}
