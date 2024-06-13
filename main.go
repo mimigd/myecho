@@ -2,9 +2,11 @@ package main
 
 import (
 	"fmt"
-	"myecho/models"
-	"myecho/routes"
 	"time"
+
+	"myecho/models"
+	"myecho/pkg/rdb"
+	"myecho/routes"
 
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
@@ -25,6 +27,10 @@ func main() {
 		fmt.Println(err)
 	}
 
+	// 初始化redis
+	rdb.InitRedis()
+	defer rdb.CloseRedis()
+
 	// Echo instance
 	e := echo.New()
 
@@ -34,7 +40,8 @@ func main() {
 	// Middleware
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
-	// 定义一个计算请求消耗时间的中间件
+
+	// 定義一個消耗時間的middleware
 	e.Use(func(next echo.HandlerFunc) echo.HandlerFunc {
 		return func(c echo.Context) error {
 			start := time.Now()
