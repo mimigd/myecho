@@ -3,6 +3,7 @@ package rdb
 import (
 	"context"
 	"log"
+	"os"
 
 	"github.com/go-redis/redis/v8"
 )
@@ -11,7 +12,7 @@ var RDB *redis.Client
 
 func InitRedis() {
 	RDB = redis.NewClient(&redis.Options{
-		Addr:         "localhost:6379",
+		Addr:         os.Getenv("MYECHO_REDIS"),
 		Password:     "", // no password set
 		DB:           0,  // use default DB
 		PoolSize:     100,
